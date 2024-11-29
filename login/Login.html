@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="form-container">
+    <form id="login-form" class="auth-form">
+      <h2>Login</h2>
+      <div class="form-group">
+        <label for="login-email"><strong>Email</strong></label>
+        <input type="email" id="login-email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="login-password"><strong>Password</strong></label>
+        <input type="password" id="login-password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+      <p class="switch-page">
+        Don't have an account? <a href="registration.html">Register here</a>.
+      </p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        alert('Login Successful');
+        window.location.href = 'products.html'; // Redirect to products page after successful login
+      } else {
+        alert('Login Failed');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+/* styles.css */
+.switch-page {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .switch-page a {
+    color: #007bff; /* Blue link */
+    text-decoration: none;
+  }
+  
+  .switch-page a:hover {
+    text-decoration: underline; /* Underline on hover */
+  }
+  

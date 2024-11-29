@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneakers Store</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Header Styling */
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #333;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-left: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 20px;
+            margin-right: 100px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #FF8C00;
+        }
+
+        /* Search Bar Styling */
+        .search-bar {
+            margin: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .search-bar select, .search-bar button {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .search-bar button {
+            background-color: #FF8C00;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background-color: #e67e00;
+        }
+
+        /* Product Card Styling */
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .product-card h3 {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .product-card p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .product-card button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #FF8C00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .product-card button:hover {
+            background-color: #e67e00;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 10px 15px;
+            background-color: #FF8C00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: #e67e00;
+        }
+
+        .pagination button:disabled {
+            background-color: #cccccc;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        /* Checkout Button */
+        .checkout {
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #FF8C00;
+            color: white;
+            text-align: center;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            max-width: 300px;
+        }
+
+        .checkout:hover {
+            background-color: #e67e00;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Lovelace Sneaker Hub</div>
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="./login/Login.html">Account</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart</a>
+            <a href="#">Exit</a>
+        </nav>
+    </header>
+
+    <div class="search-bar">
+        <select id="brand-filter">
+            <option value="">All Brands</option>
+            <option value="Puma">Puma</option>
+            <option value="Nike">Nike</option>
+            <option value="Reebok">Reebok</option>
+            <option value="Adidas">Adidas</option>
+        </select>
+        <select id="category-filter">
+            <option value="">All Categories</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
+        </select>
+        <select id="price-sort">
+            <option value="">Sort by Price</option>
+            <option value="asc">Low to High</option>
+            <option value="desc">High to Low</option>
+        </select>
+        <button onclick="filterProducts()">Apply Filters</button>
+    </div>
+
+    <div id="products-container" class="products-container"></div>
+
+    <div class="pagination">
+        <button id="prev-btn" onclick="prevPage()">Previous</button>
+        <button id="next-btn" onclick="nextPage()">Next</button>
+    </div>
+
+    <button class="checkout" onclick="proceedToCheckout()">Proceed to Checkout</button>
+
+    <script>
+        const brands = ["Puma", "Nike", "Reebok", "Adidas"];
+        const categories = ["Men", "Women", "Kids"];
+        const products = Array.from({ length: 25 }, (_, i) => ({
+            id: i + 1,
+            name: brands[i % 4],
+            category: categories[i % 3],
+            price: Math.floor(Math.random() * 1000) + 100,
+            img: "placeholder.jpg" 
+        }));
+
+        let currentPage = 1;
+        const itemsPerPage = 6;
+        let filteredProducts = [...products];
+
+        function displayProducts() {
+            const container = document.getElementById("products-container");
+            container.innerHTML = "";
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageProducts = filteredProducts.slice(start, end);
+
+            pageProducts.forEach(product => {
+                const productCard = document.createElement("div");
+                productCard.className = "product-card";
+                productCard.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Category: ${product.category}</p>
+                    <p>Price: R${product.price}</p>
+                    <button onclick="addToCart('${product.name}', '${product.category}', ${product.price})">Add to Cart</button>
+                `;
+                container.appendChild(productCard);
+            });
+
+            document.getElementById("prev-btn").disabled = currentPage === 1;
+            document.getElementById("next-btn").disabled = currentPage === Math.ceil(filteredProducts.length / itemsPerPage);
+        }
+
+        function filterProducts() {
+            const brand = document.getElementById("brand-filter").value;
+            const category = document.getElementById("category-filter").value;
+            const priceSort = document.getElementById("price-sort").value;
+
+            filteredProducts = products.filter(product => (
+                (brand ? product.name === brand : true) &&
+                (category ? product.category === category : true)
+            ));
+
+            if (priceSort === "asc") {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (priceSort === "desc") {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            }
+
+            currentPage = 1;
+            displayProducts();
+        }
+
+        function addToCart(name, category, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let existingProduct = cart.find(item => item.name === name);
+
+            if (existingProduct) {
+                existingProduct.quantity++;
+            } else {
+                cart.push({
+                    name,
+                    category,
+                    price,
+                    quantity: 1,
+                    size: 10
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} added to your cart!`);
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayProducts();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < Math.ceil(filteredProducts.length / itemsPerPage)) {
+                currentPage++;
+                displayProducts();
+            }
+        }
+
+        function proceedToCheckout() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+            } else {
+                window.location.href = "cart.html";
+            }
+        }
+
+        displayProducts();
+    </script>
+</body>
+</html>
+
+
+
